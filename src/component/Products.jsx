@@ -3,7 +3,7 @@ import Skeleton from 'react-loading-skeleton';
 
 const Products = () => {
     const [data, setData] = useState([]);
-    const [filter, setFilter] = useState(data);
+    const [filter, setFilter] = useState([]);
     const [loading, setLoading] = useState(false);
     let componentMounted = true;
 
@@ -24,6 +24,13 @@ const Products = () => {
         getProducts();
     }, []);
 
+    // useEffect(() => {
+    //     fetch("https://fakestoreapi.com/products")
+    //         .then(res => res.json())
+    //         .then(datas => setFilter(datas))
+    //     console.log(filter);
+    // }, [])
+
     const Loading = () => {
         return (
             <>
@@ -41,18 +48,23 @@ const Products = () => {
                 </div>
             </>
         )
+    };
+
+    const filterProduct = (cat) => {
+        const updatedList = data.filter((x) => x.category === cat);
+        setFilter(updatedList);
     }
 
     const ShowProducts = () => {
         return (
             <>
                 <div className="buttons d-flex justify-content-center mb-5 pb-5">
-                    <button className="btn btn-outline-dark me-2">All</button>
-                    <button className="btn btn-outline-dark me-2">Mens</button>
-                    <button className="btn btn-outline-dark me-2">Womens</button>
-                    <button className="btn btn-outline-dark me-2">Jewelery</button>
-                    <button className="btn btn-outline-dark me-2">Electronics</button>
-                </div>
+                    <button className="btn btn-outline-dark me-2" onClick={() => setFilter(data)}>All</button>
+                    <button className="btn btn-outline-dark me-2" onClick={() => filterProduct("men's clothing")}>Mens</button>
+                    <button className="btn btn-outline-dark me-2" onClick={() => filterProduct("women's clothing")}>Womens</button>
+                    <button className="btn btn-outline-dark me-2" onClick={() => filterProduct("jewelery")}> Jewelery</button>
+                    <button className="btn btn-outline-dark me-2" onClick={() => filterProduct("electronics")}> Electronics</button>
+                </div >
                 {
                     filter.map(product => {
                         return (
